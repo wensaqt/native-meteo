@@ -1,54 +1,43 @@
-import { useEffect, useState } from "react";
-import * as Location from "expo-location";
-import { useWeatherAPI } from "@/hooks/useWeatherAPI";
+import { useEffect } from "react";
+import { useWeather } from "@/app/store/weather.ctx";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { StyleSheet, View } from "react-native";
 import { IconSymbol, IconSymbolName } from "../IconSymbol";
-import { WeatherData } from "./weather.types";
 import { getWeatherIcon } from "@/utils/weather-icons";
 import Divider from "@/components/ui/shared/divider";
 
 const CurrentWeatherCard = () => {
-    const [location, setLocation] = useState<string | null>(null);
-    const { data, loading, error } = useWeatherAPI(location || "Paris");
+    const { currentWeather, loading, error, fetchUserCurrentWeather } = useWeather();
 
     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                console.warn("Permission de localisation refusée");
-                return;
-            }
-            let loc = await Location.getCurrentPositionAsync({});
-            setLocation(`${loc.coords.latitude},${loc.coords.longitude}`);
-        })();
+        fetchUserCurrentWeather();
     }, []);
 
     if (loading) return <ThemedText>Chargement...</ThemedText>;
-    if (error) return <ThemedText>Erreur: {error.message}</ThemedText>;
-    if (!data) return null;
+    if (error) return <ThemedText>Erreur: {error}</ThemedText>;
+    if (!currentWeather) return null;
 
     return (
         <>
             <ThemedView style={styles.container}>
                 <ThemedView style={styles.header}>
                     <ThemedView>
-                        <ThemedText type="subtitle">{data.location.name}</ThemedText>
+                        <ThemedText type="subtitle">{currentWeather.location.name}</ThemedText>
                     </ThemedView>
                 </ThemedView>
 
                 <ThemedView style={styles.infosContainer}>
                     <IconSymbol
-                        name={getWeatherIcon(data.current.condition.code) as IconSymbolName}
+                        name={getWeatherIcon(currentWeather.current.condition.code) as IconSymbolName}
                         size={80}
                         color="#9B89C7"
                     />
                     <View style={styles.temperatureContainer}>
                         <ThemedText type="temp" style={styles.temperature}>
-                            {data.current.temp_c}°C
+                            {currentWeather.current.temp_c}°C
                         </ThemedText>
-                        <ThemedText>{data.current.condition.text}</ThemedText>
+                        <ThemedText>{currentWeather.current.condition.text}</ThemedText>
                     </View>
                 </ThemedView>
             </ThemedView>
