@@ -2,9 +2,11 @@ import { StyleSheet, View } from "react-native";
 import Button from "../shared/button";
 import { useWeather } from "@/app/store/weather.ctx";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from '@react-navigation/native';
 
 export const ActionBar = () => {
 	const { clearHistory, showOnlyLiked, setShowOnlyLiked } = useWeather();
+	const navigation = useNavigation();
 
 	return (
 		<View style={styles.container}>
@@ -35,6 +37,8 @@ export const ActionBar = () => {
 				>
 					Clear
 				</Button>
+
+					
 			</View>
 		</View>
 	);
