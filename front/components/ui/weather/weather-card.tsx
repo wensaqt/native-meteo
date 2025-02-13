@@ -46,6 +46,7 @@ const WeatherCard = ({ data, onToggleLike }: WeatherCardProps) => {
 						icon={data.liked ? "heart.fill" : "heart"}
 						iconSize={24}
 						variant={"ghost"}
+						iconColor="#9B89C7"
 						onPress={onToggleLike}
 					/>
 				</ThemedView>

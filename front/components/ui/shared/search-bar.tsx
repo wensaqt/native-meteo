@@ -9,9 +9,9 @@ const SearchBar = () => {
 	const { searchLocation } = useWeather();
 
 	const handleSubmit = () => {
-		if (query.trim()) {
-			console.log("query: ", query.trim());
-			searchLocation(query.trim());
+		if (query) {
+			const trimmedQuery = query.trim();
+			searchLocation(trimmedQuery);
 			setQuery("");
 		}
 	};
@@ -22,7 +22,7 @@ const SearchBar = () => {
 				<Input
 					value={query}
 					onChangeText={setQuery}
-					placeholder="Search city..."
+					placeholder="Search location..."
 				/>
 				<View style={styles.iconContainer}>
 					<Button
@@ -30,6 +30,7 @@ const SearchBar = () => {
 						iconSize={20}
 						onPress={handleSubmit}
 						variant="ghost"
+						iconColor="#9B89C7"
 					/>
 				</View>
 			</View>

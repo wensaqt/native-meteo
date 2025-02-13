@@ -52,7 +52,7 @@ const Button = ({
 				<IconSymbol
 					name={icon}
 					size={iconSize}
-					color={variant === "filled" ? "#FFFFFF" : "#007AFF"}
+					color={iconColor}
 					style={!isIconButton && styles.icon}
 				/>
 			)}
