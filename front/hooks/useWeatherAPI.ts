@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 interface WeatherCondition {
 	text: string;
 	icon: string;
+	code: number;
 }
 
 interface WeatherData {
@@ -58,6 +59,7 @@ export const useWeatherAPI = (location: string) => {
 						condition: {
 							text: fullData.current.condition.text,
 							icon: `https:${fullData.current.condition.icon}`,
+							code: fullData.current.condition.code,
 						},
 						humidity: fullData.current.humidity,
 						wind_kph: fullData.current.wind_kph,

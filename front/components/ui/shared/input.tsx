@@ -43,12 +43,11 @@ const styles = StyleSheet.create({
 	container: {
 		marginVertical: 8,
 		paddingHorizontal: 12,
-		borderRadius: 8,
-		backgroundColor: "#f0f5ff", // Very light blue background
+		borderRadius: 8, // Very light blue background
 		width: "100%",
 		maxWidth: 400,
 		borderWidth: 1, // Add border
-		borderColor: "#e0e0e0", // Light gray border
+		borderColor: "#9B89C7",
 	},
 	input: {
 		height: 40,

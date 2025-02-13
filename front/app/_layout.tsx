@@ -6,7 +6,7 @@ import { ActionBar } from "@/components/ui/weather/action-bar";
 export default function RootLayout() {
 	return (
 		<WeatherProvider>
-			<SafeAreaView style={{ flex: 1 }}>
+			<SafeAreaView style={{ flex: 1, backgroundColor: "#E8E3F3" }}>
 				<HomeScreen />
 				<ActionBar />
 			</SafeAreaView>
