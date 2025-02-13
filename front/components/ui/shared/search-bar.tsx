@@ -2,21 +2,17 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Input from "./input";
 import Button from "./button";
+import { useWeather } from "@/app/store/weather.ctx";
 
-interface SearchBarProps {
-	onSearch: (query: string) => void;
-	placeholder?: string;
-}
-
-const SearchBar = ({
-	onSearch,
-	placeholder = "Search city...",
-}: SearchBarProps) => {
+const SearchBar = () => {
 	const [query, setQuery] = useState("");
+	const { searchLocation } = useWeather();
 
 	const handleSubmit = () => {
 		if (query.trim()) {
-			onSearch(query.trim());
+			console.log("query: ", query.trim());
+			searchLocation(query.trim());
+			setQuery("");
 		}
 	};
 
@@ -26,7 +22,7 @@ const SearchBar = ({
 				<Input
 					value={query}
 					onChangeText={setQuery}
-					placeholder={placeholder}
+					placeholder="Search city..."
 				/>
 				<View style={styles.iconContainer}>
 					<Button
@@ -44,7 +40,6 @@ const SearchBar = ({
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
-		paddingHorizontal: 16,
 	},
 	inputContainer: {
 		position: "relative",
