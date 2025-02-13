@@ -1,46 +1,63 @@
 import { StyleSheet, View } from "react-native";
 import Button from "../shared/button";
 import { useWeather } from "@/app/store/weather.ctx";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const ActionBar = () => {
 	const { clearHistory, showOnlyLiked, setShowOnlyLiked } = useWeather();
 
 	return (
 		<View style={styles.container}>
-			<Button
-				icon={showOnlyLiked ? "heart.fill" : "heart"}
-				iconSize={24}
-				iconColor="white"
-				onPress={() => setShowOnlyLiked(!showOnlyLiked)}
-				variant="ghost"
-				textStyle={{ fontSize: 16, color: "white" }}
-			>
-				Likes
-			</Button>
+			<LinearGradient
+				colors={["rgba(155, 137, 199, 0.7)", "rgba(155, 137, 199, 1)"]}
+				locations={[0, 0.33]}
+				style={styles.gradient}
+			/>
+			<View style={styles.content}>
+				<Button
+					icon={showOnlyLiked ? "list.bullet" : "heart"}
+					iconSize={24}
+					iconColor="white"
+					onPress={() => setShowOnlyLiked(!showOnlyLiked)}
+					variant="ghost"
+					textStyle={{ fontSize: 16, color: "white" }}
+				>
+					{showOnlyLiked ? "All" : "Likes"}
+				</Button>
 
-			<Button
-				icon="trash"
-				iconColor="white"
-				iconSize={24}
-				onPress={clearHistory}
-				variant="ghost"
-				textStyle={{ fontSize: 16, color: "white" }}
-			>
-				Clear
-			</Button>
+				<Button
+					icon="trash"
+					iconColor="white"
+					iconSize={24}
+					onPress={clearHistory}
+					variant="ghost"
+					textStyle={{ fontSize: 16, color: "white" }}
+				>
+					Clear
+				</Button>
+			</View>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		padding: 16,
-		backgroundColor: "#9B89C7", // Slightly darker but washed out purple
-		justifyContent: "space-between",
-		width: "100%",
 		position: "absolute",
 		bottom: 0,
 		right: 0,
+		width: "100%",
+	},
+	gradient: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+	},
+	content: {
+		flexDirection: "row",
+		padding: 16,
+		justifyContent: "space-between",
+		width: "100%",
 	},
 });

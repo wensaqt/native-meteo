@@ -9,6 +9,7 @@ export interface WeatherData {
 		condition: {
 			text: string;
 			icon: string;
+			code: number;
 		};
 		humidity: number;
 		wind_kph: number;

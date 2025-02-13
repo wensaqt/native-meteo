@@ -1,11 +1,13 @@
 import { StyleSheet, ScrollView, View } from "react-native";
 import SearchBar from "@/components/ui/shared/search-bar";
 import WeatherHistory from "@/components/ui/weather/weather-history";
-import { ActionBar } from "@/components/ui/weather/action-bar";
 
 export default function HomeScreen() {
 	return (
-		<ScrollView style={styles.pageContainer}>
+		<ScrollView
+			style={styles.pageContainer}
+			contentContainerStyle={styles.scrollContent}
+		>
 			<View style={styles.content}>
 				<SearchBar />
 				<WeatherHistory />
@@ -16,14 +18,13 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
 	pageContainer: {
-		width: "100%",
-		height: "100%",
 		flex: 1,
 	},
+	scrollContent: {
+		paddingBottom: 80, // hauteur de l'ActionBar + padding
+	},
 	content: {
-		minHeight: "100%",
 		padding: 16,
 		gap: 16,
-		position: "relative",
 	},
 });
