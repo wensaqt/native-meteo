@@ -1,11 +1,7 @@
 import { StyleSheet, ScrollView, View } from "react-native";
-
-import { SafeAreaView } from "react-native-safe-area-context";
-import WeatherCard from "@/components/ui/weather/weather-card";
 import SearchBar from "@/components/ui/shared/search-bar";
-import { useWeather } from "../store/weather.ctx";
-import { ThemedText } from "@/components/ThemedText";
 import WeatherHistory from "@/components/ui/weather/weather-history";
+import { ActionBar } from "@/components/ui/weather/action-bar";
 
 export default function HomeScreen() {
 	return (
@@ -22,9 +18,12 @@ const styles = StyleSheet.create({
 	pageContainer: {
 		width: "100%",
 		height: "100%",
+		flex: 1,
 	},
 	content: {
+		minHeight: "100%",
 		padding: 16,
 		gap: 16,
+		position: "relative",
 	},
 });

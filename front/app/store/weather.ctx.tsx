@@ -11,6 +11,9 @@ import { useWeatherAPI } from "@/hooks/useWeatherAPI";
 interface WeatherContextType {
 	history: WeatherData[];
 	currentWeather: WeatherData | null;
+	filteredHistory: WeatherData[];
+	showOnlyLiked: boolean;
+	setShowOnlyLiked: (showOnlyLiked: boolean) => void;
 	loading: boolean;
 	error: string | null;
 	searchLocation: (location: string) => void;
@@ -27,6 +30,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 	const [location, setLocation] = useState("Paris");
 	const [history, setHistory] = useState<WeatherData[]>([]);
 	const { data, loading, error } = useWeatherAPI(location);
+	const [showOnlyLiked, setShowOnlyLiked] = useState(false);
 
 	useEffect(() => {
 		if (data) {
@@ -62,12 +66,19 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 		});
 	};
 
+	const filteredHistory = showOnlyLiked
+		? history?.filter((weather) => weather.liked)
+		: history;
+
 	return (
 		<WeatherContext.Provider
 			value={{
 				currentWeather,
 				setCurrentWeather,
 				history,
+				filteredHistory,
+				showOnlyLiked,
+				setShowOnlyLiked,
 				loading,
 				error,
 				searchLocation,
