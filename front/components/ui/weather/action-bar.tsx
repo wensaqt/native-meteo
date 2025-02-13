@@ -38,16 +38,7 @@ export const ActionBar = () => {
 					Clear
 				</Button>
 
-				<Button
-					icon="location"
-					iconColor="white"
-					iconSize={24}
-					onPress={() => navigation.navigate('Nearby Weather')}
-					variant="ghost"
-					textStyle={{ fontSize: 16, color: "white" }}
-				>
-					Nearby
-				</Button>
+					
 			</View>
 		</View>
 	);

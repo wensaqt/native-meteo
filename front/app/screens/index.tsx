@@ -1,6 +1,7 @@
 import { StyleSheet, ScrollView, View } from "react-native";
 import SearchBar from "@/components/ui/shared/search-bar";
 import WeatherHistory from "@/components/ui/weather/weather-history";
+import CurrentWeatherCard from "@/components/ui/weather/current-weather-card";
 
 export default function HomeScreen() {
 	return (
@@ -10,6 +11,7 @@ export default function HomeScreen() {
 		>
 			<View style={styles.content}>
 				<SearchBar />
+				<CurrentWeatherCard />
 				<WeatherHistory />
 			</View>
 		</ScrollView>
