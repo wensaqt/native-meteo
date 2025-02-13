@@ -27,7 +27,7 @@ interface WeatherError {
 const API_KEY = "fef62d1a0e4443cd8f8101151251102";
 const BASE_URL = "http://api.weatherapi.com/v1/current.json";
 
-export const useWeatherAPI = (city: string) => {
+export const useWeatherAPI = (location: string) => {
 	const [data, setData] = useState<WeatherData | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<WeatherError | null>(null);
@@ -37,7 +37,7 @@ export const useWeatherAPI = (city: string) => {
 			try {
 				setLoading(true);
 				const response = await fetch(
-					`${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(city)}&aqi=no`
+					`${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(location)}&aqi=no`
 				);
 
 				if (!response.ok) {
@@ -77,10 +77,10 @@ export const useWeatherAPI = (city: string) => {
 			}
 		};
 
-		if (city) {
+		if (location) {
 			fetchWeather();
 		}
-	}, [city]);
+	}, [location]);
 
 	return { data, loading, error };
 };

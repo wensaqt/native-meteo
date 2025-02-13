@@ -14,4 +14,15 @@ export interface WeatherData {
 		wind_kph: number;
 		vis_km: number;
 	};
+	liked?: boolean;
+}
+
+export interface WeatherHistoryItem extends WeatherData {
+	timestamp: number;
+}
+
+// Pour identifier de manière unique une ville
+export interface LikedLocation {
+	name: string;
+	country: string;
 }

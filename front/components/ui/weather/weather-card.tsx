@@ -2,10 +2,12 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { StyleSheet } from "react-native";
 import { IconSymbol } from "../IconSymbol";
+import Button from "../shared/button";
 import { WeatherData } from "./weather.types";
 
 interface WeatherCardProps {
 	data: WeatherData;
+	onToggleLike?: () => void;
 }
 
 const formatDate = (dateString: string): string => {
@@ -29,7 +31,7 @@ const formatDate = (dateString: string): string => {
 	}
 };
 
-const WeatherCard = ({ data }: WeatherCardProps) => {
+const WeatherCard = ({ data, onToggleLike }: WeatherCardProps) => {
 	const formattedDate = formatDate(data.location.localtime);
 
 	return (
@@ -40,11 +42,11 @@ const WeatherCard = ({ data }: WeatherCardProps) => {
 					<ThemedText>{formattedDate}</ThemedText>
 				</ThemedView>
 				<ThemedView>
-					<IconSymbol
-						name="heart"
-						size={24}
-						color="gray"
-						style={{ padding: 8 }}
+					<Button
+						icon={data.liked ? "heart.fill" : "heart"}
+						iconSize={24}
+						variant={"ghost"}
+						onPress={onToggleLike}
 					/>
 				</ThemedView>
 			</ThemedView>
