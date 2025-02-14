@@ -1,9 +1,18 @@
 import { StyleSheet, ScrollView, View } from "react-native";
+import { useEffect } from "react";
 import SearchBar from "@/components/ui/shared/search-bar";
-import WeatherHistory from "@/components/ui/weather/weather-history";
-import CurrentWeatherCard from "@/components/ui/weather/current-weather-card";
+import WeatherCard from "@/components/ui/weather/weather-card";
+import Divider from "@/components/ui/shared/divider";
+import { useWeather } from "@/app/store/weather.ctx";
+import React from "react";
 
 export default function HomeScreen() {
+	const { history, currentWeather, fetchUserCurrentWeather } = useWeather();
+
+	useEffect(() => {
+		fetchUserCurrentWeather();
+	}, []);
+
 	return (
 		<ScrollView
 			style={styles.pageContainer}
@@ -11,8 +20,15 @@ export default function HomeScreen() {
 		>
 			<View style={styles.content}>
 				<SearchBar />
-				<CurrentWeatherCard />
-				<WeatherHistory />
+				{currentWeather && (
+					<>
+						<WeatherCard data={currentWeather} />
+						<Divider />
+					</>
+				)}
+				{history.map((data, index) => (
+					<WeatherCard key={`${data.location.name}-${index}`} data={data} />
+				))}
 			</View>
 		</ScrollView>
 	);
@@ -23,7 +39,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	scrollContent: {
-		paddingBottom: 80, // hauteur de l'ActionBar + padding
+		paddingBottom: 80,
 	},
 	content: {
 		padding: 16,

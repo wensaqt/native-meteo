@@ -1,56 +1,88 @@
 import { ReactNode } from "react";
 import { View, StyleSheet } from "react-native";
-import { UseFormReturn, Controller } from "react-hook-form";
+import {
+	UseFormReturn,
+	RegisterOptions,
+	FieldValues,
+	Controller,
+	Path,
+} from "react-hook-form";
 import Button from "./button";
 import Input from "./input";
 
-interface FormFieldConfig {
-	name: string;
+export interface FormFieldConfig<T extends FieldValues> {
+	name: keyof T;
 	type?: "text" | "password";
 	placeholder?: string;
 	label?: string;
-	rules?: object;
+	rules?: RegisterOptions;
 }
 
-interface FormProps {
-	form: UseFormReturn<any>;
-	fields: FormFieldConfig[];
-	onSubmit: (data: any) => void;
+interface FormProps<T extends FieldValues> {
+	form: UseFormReturn<T>;
+	fields: FormFieldConfig<T>[];
+	onSubmit: (data: T) => void;
 	submitText?: string;
 	children?: ReactNode;
+	mode?: "login" | "register";
+	onModeChange?: (mode: "login" | "register") => void;
 }
 
-const Form = ({
+const Form = <T extends FieldValues>({
 	form,
 	fields,
 	onSubmit,
 	submitText = "Submit",
 	children,
-}: FormProps) => {
+	mode,
+	onModeChange,
+}: FormProps<T>) => {
 	const { handleSubmit, control } = form;
 
 	return (
 		<View style={styles.container}>
-			{fields.map((field) => (
-				<Controller
-					key={field.name}
-					control={control}
-					name={field.name}
-					rules={field.rules}
-					render={({ field: { onChange, value } }) => (
-						<Input
-							type={field.type}
-							placeholder={field.placeholder}
-							value={value}
-							onChangeText={onChange}
-						/>
-					)}
-				/>
-			))}
+			<View style={styles.fieldsContainer}>
+				{fields.map((field) => (
+					<Controller
+						key={String(field.name)}
+						control={control}
+						name={field.name as Path<T>}
+						rules={field.rules as RegisterOptions<T>}
+						render={({ field: { onChange, value } }) => (
+							<Input
+								type={field.type}
+								placeholder={field.placeholder}
+								value={value}
+								onChangeText={onChange}
+							/>
+						)}
+					/>
+				))}
+			</View>
 
 			{children}
 
-			<Button onPress={handleSubmit(onSubmit)}>{submitText}</Button>
+			<View style={styles.buttonContainer}>
+				<Button
+					onPress={handleSubmit(onSubmit)}
+					style={styles.button}
+					textStyle={styles.buttonText}
+				>
+					{submitText}
+				</Button>
+				{mode && onModeChange && (
+					<Button
+						variant="outlined"
+						textStyle={styles.buttonTextSecondary}
+						onPress={() =>
+							onModeChange(mode === "login" ? "register" : "login")
+						}
+						style={styles.buttonSecondary}
+					>
+						{mode === "login" ? "Sign Up" : "Sign In"}
+					</Button>
+				)}
+			</View>
 		</View>
 	);
 };
@@ -59,7 +91,30 @@ const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		gap: 16,
-		alignItems: "center",
+	},
+	fieldsContainer: {
+		width: "100%",
+		gap: 16,
+	},
+	buttonContainer: {
+		width: "100%",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		gap: 16,
+	},
+	button: {
+		backgroundColor: "#6366F1",
+		minWidth: 120,
+	},
+	buttonSecondary: {
+		minWidth: 120,
+		borderColor: "#6366F1",
+	},
+	buttonTextSecondary: {
+		color: "#6366F1",
+	},
+	buttonText: {
+		color: "white",
 	},
 });
 

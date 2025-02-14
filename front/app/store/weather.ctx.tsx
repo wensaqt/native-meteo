@@ -5,7 +5,7 @@ import {
 	useEffect,
 	ReactNode,
 } from "react";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 import { WeatherData } from "@/components/ui/weather/weather.types";
 import { useWeatherAPI } from "@/hooks/useWeatherAPI";
 
@@ -26,8 +26,12 @@ interface WeatherContextType {
 const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
 
 export function WeatherProvider({ children }: { children: ReactNode }) {
-	const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null);
-	const [userCurrentLocation, setUserCurrentLocation] = useState<string | null>(null);
+	const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(
+		null
+	);
+	const [userCurrentLocation, setUserCurrentLocation] = useState<string | null>(
+		null
+	);
 	const [location, setLocation] = useState("Paris");
 	const [history, setHistory] = useState<WeatherData[]>([]);
 	const { data, loading, error } = useWeatherAPI(location);
@@ -48,7 +52,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 
 	const fetchUserCurrentWeather = async () => {
 		const { status } = await Location.requestForegroundPermissionsAsync();
-		if (status !== 'granted') {
+		if (status !== "granted") {
 			console.error("Permission to access location was denied");
 			return;
 		}
@@ -77,7 +81,9 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 		});
 	};
 
-	const filteredHistory = showOnlyLiked ? history?.filter((weather) => weather.liked) : history;
+	const filteredHistory = showOnlyLiked
+		? history?.filter((weather) => weather.liked)
+		: history;
 
 	return (
 		<WeatherContext.Provider
@@ -88,12 +94,12 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 				showOnlyLiked,
 				setShowOnlyLiked,
 				loading,
-				error,
+				error: error as string | null,
 				searchLocation,
 				clearHistory,
 				toggleLike,
 				fetchUserCurrentWeather,
-		}}
+			}}
 		>
 			{children}
 		</WeatherContext.Provider>
